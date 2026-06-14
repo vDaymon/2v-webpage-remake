@@ -6,6 +6,10 @@ import { useTexture, Environment, Lightformer, ContactShadows, Instances, Instan
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import { SRGBColorSpace, Color, CanvasTexture, Shape, ExtrudeGeometry, Matrix4, Vector3, Quaternion } from "three";
 
+// Start fetching the logo textures as soon as the 3D chunk loads.
+useTexture.preload("/logo-2v.png");
+useTexture.preload("/logosinfondo.png");
+
 /* ── helpers ─────────────────────────────────────────────────────────── */
 const clamp01 = (x) => Math.min(1, Math.max(0, x));
 const smoothstep = (a, b, x) => {
@@ -619,7 +623,7 @@ function SceneContent({ progress }) {
       <WatermarkLogo tex={wmTex} />
 
       {/* studio environment built from soft area lights → real reflections */}
-      <Environment resolution={256}>
+      <Environment resolution={128}>
         <Lightformer intensity={2.4} position={[0, 3, 3]} scale={[7, 5, 1]} color="#ffffff" />
         <Lightformer intensity={1.4} position={[-5, 1, 2]} scale={[3, 6, 1]} color="#b794f6" />
         <Lightformer intensity={1.2} position={[5, -1, 2]} scale={[3, 6, 1]} color="#f0abfc" />
