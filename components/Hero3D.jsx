@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 
 // Three.js / WebGL must only run in the browser.
@@ -21,6 +21,8 @@ export function Hero3D({ t }) {
   const subRef = useRef(null);
   const ctaRef = useRef(null);
   const hintRef = useRef(null);
+  const [ready, setReady] = useState(false);   // 3D loaded → hide loader
+  const [active, setActive] = useState(true);   // hero on screen → render the 3D
 
   // Drive the overlay copy directly from scroll each frame (no re-render) so it
   // stays perfectly in sync with the 3D animation. Works with Lenis too.
@@ -39,6 +41,11 @@ export function Hero3D({ t }) {
         const scrolled = Math.max(0, -rect.top);
         const p = total > 0 ? clamp01(scrolled / total) : 0;
         progress.current = p;
+
+        // Pause the 3D when the hero is off-screen (frees the GPU for smooth
+        // scrolling of the rest of the page, especially on mobile).
+        const vis = rect.bottom > 0 && rect.top < window.innerHeight;
+        setActive((prev) => (prev === vis ? prev : vis));
 
         // Wide hold windows so each line stays on screen long enough to read.
         const headlineO = 1 - ss(0.28, 0.38, p);           // holds from the start, fades ~0.28→0.38
@@ -63,7 +70,14 @@ export function Hero3D({ t }) {
   return (
     <section ref={sectionRef} id="top" className="hero3d">
       <div className="hero3d-sticky">
-        <Scene3D progress={progress} />
+        <Scene3D progress={progress} active={active} onReady={() => setReady(true)} />
+
+        {/* loading dots until the 3D is ready */}
+        <div className={`hero3d-loader ${ready ? "is-done" : ""}`} aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
 
         <div className="hero3d-overlay">
           {/* Title — part of the entrance animation */}

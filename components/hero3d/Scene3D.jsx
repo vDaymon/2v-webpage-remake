@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useRef, useMemo, useLayoutEffect } from "react";
+import { Suspense, useRef, useMemo, useLayoutEffect, useEffect } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useTexture, Environment, Lightformer, ContactShadows, Instances, Instance } from "@react-three/drei";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
@@ -612,11 +612,16 @@ function WatermarkLogo({ tex }) {
   );
 }
 
-function SceneContent({ progress }) {
+function SceneContent({ progress, onReady, isMobile }) {
   const [tex, wmTex] = useTexture(["/logo-2v.png", "/logosinfondo.png"]);
   tex.colorSpace = SRGBColorSpace;
   wmTex.colorSpace = SRGBColorSpace;
   const logoMask = useLogoMask(tex);
+  useEffect(() => {
+    // Textures resolved (past Suspense) → tell the host to hide the loader.
+    const id = requestAnimationFrame(() => onReady && onReady());
+    return () => cancelAnimationFrame(id);
+  }, [onReady]);
   return (
     <>
       <Background />
@@ -635,7 +640,7 @@ function SceneContent({ progress }) {
       <pointLight position={[-6, 1, 4]} intensity={18} color="#7c3aed" />
       <pointLight position={[6, -2, 5]} intensity={14} color="#f0abfc" />
 
-      <ContactShadows position={[0, -2.1, 0]} opacity={0.4} scale={11} blur={3.2} far={4.5} color="#0a0418" frames={Infinity} />
+      <ContactShadows position={[0, -2.1, 0]} opacity={0.4} scale={11} blur={3.2} far={4.5} color="#0a0418" frames={isMobile ? 40 : Infinity} />
 
       <Rig progress={progress} />
       <Devices progress={progress} tex={tex} logoMask={logoMask} />
@@ -643,20 +648,29 @@ function SceneContent({ progress }) {
   );
 }
 
-export default function Scene3D({ progress }) {
+export default function Scene3D({ progress, active = true, onReady }) {
+  const isMobile =
+    typeof window !== "undefined" &&
+    window.matchMedia &&
+    window.matchMedia("(max-width: 820px)").matches;
+
   return (
     <Canvas
+      frameloop={active ? "always" : "never"}
       camera={{ position: [0, 0.45, 8.0], fov: 40 }}
-      dpr={[1, 1.8]}
-      gl={{ alpha: true, antialias: true }}
+      dpr={isMobile ? [1, 1.3] : [1, 1.8]}
+      gl={{ alpha: true, antialias: true, powerPreference: "high-performance" }}
       style={{ background: "transparent" }}
     >
       <Suspense fallback={null}>
-        <SceneContent progress={progress} />
+        <SceneContent progress={progress} onReady={onReady} isMobile={isMobile} />
       </Suspense>
-      <EffectComposer disableNormalPass>
-        <Bloom luminanceThreshold={0.55} luminanceSmoothing={0.25} intensity={0.7} mipmapBlur />
-      </EffectComposer>
+      {/* Bloom is GPU-heavy → desktop only (keeps mobile scrolling smooth). */}
+      {!isMobile && (
+        <EffectComposer disableNormalPass>
+          <Bloom luminanceThreshold={0.55} luminanceSmoothing={0.25} intensity={0.7} mipmapBlur />
+        </EffectComposer>
+      )}
     </Canvas>
   );
 }
