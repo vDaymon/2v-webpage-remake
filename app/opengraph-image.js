@@ -27,11 +27,11 @@ export default function Image() {
         <div style={{ fontSize: 230, fontWeight: 800, letterSpacing: "-14px", lineHeight: 1 }}>
           2V
         </div>
-        <div style={{ fontSize: 50, fontWeight: 700, marginTop: 8 }}>
-          Diseño web · SEO · Software a medida
+        <div style={{ fontSize: 48, fontWeight: 700, marginTop: 8 }}>
+          Marketing · SEO · Diseño de páginas web
         </div>
         <div style={{ fontSize: 30, color: "#C8B1E4", marginTop: 22 }}>
-          Estudio digital para emprendedores · Buenos Aires
+          Agencia digital en Colombia · Medellín
         </div>
       </div>
     ),

@@ -1,8 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { Reveal, WordReveal } from "./hooks";
-import { MockBrowser, MockPhone } from "./primitives";
+
+function prettyUrl(url) {
+  return url.replace(/^https?:\/\//, "").replace(/\/$/, "");
+}
 
 export function Portfolio({ t }) {
   const sectionRef = useRef(null);
@@ -48,9 +52,31 @@ export function Portfolio({ t }) {
         </div>
         <div ref={trackRef} className="portfolio-track">
           {t.portfolio.cards.map((c, i) => (
-            <div key={i} className="portfolio-card" data-cursor-hover>
+            <a
+              key={i}
+              className="portfolio-card"
+              href={c.url}
+              target="_blank"
+              rel="noreferrer"
+              data-cursor-hover
+              aria-label={`${c.t} — visitar sitio`}
+            >
               <div className="preview">
-                {c.kind === "phone" ? <MockPhone title={c.t} /> : <MockBrowser title={c.t} />}
+                <div className="site-bar">
+                  <i></i><i></i><i></i>
+                  <span className="site-url">{prettyUrl(c.url)}</span>
+                </div>
+                <div className="site-shot">
+                  <Image
+                    src={c.img}
+                    alt={`${c.t} — sitio web desarrollado por 2V Digital`}
+                    fill
+                    sizes="(max-width: 800px) 92vw, 700px"
+                    style={{ objectFit: "cover", objectPosition: "top center" }}
+                    priority={i === 0}
+                  />
+                </div>
+                <span className="portfolio-visit">Visitar sitio ↗</span>
               </div>
               <div className="meta">
                 <div>
@@ -59,7 +85,7 @@ export function Portfolio({ t }) {
                 </div>
                 <div className="num">{c.num}</div>
               </div>
-            </div>
+            </a>
           ))}
           <div style={{ flex: "0 0 var(--pad)" }}></div>
         </div>

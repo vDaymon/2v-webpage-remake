@@ -597,13 +597,26 @@ function Background() {
   );
 }
 
+/* faint 2V watermark sitting in the background, behind the devices —
+   purely a backdrop, not part of the animated device models */
+function WatermarkLogo({ tex }) {
+  return (
+    <mesh position={[0, 0.35, -6]} renderOrder={-5}>
+      <planeGeometry args={[6.6, 6.6]} />
+      <meshBasicMaterial map={tex} transparent opacity={0.09} depthWrite={false} toneMapped={false} />
+    </mesh>
+  );
+}
+
 function SceneContent({ progress }) {
-  const tex = useTexture("/logo-2v.png");
+  const [tex, wmTex] = useTexture(["/logo-2v.png", "/logosinfondo.png"]);
   tex.colorSpace = SRGBColorSpace;
+  wmTex.colorSpace = SRGBColorSpace;
   const logoMask = useLogoMask(tex);
   return (
     <>
       <Background />
+      <WatermarkLogo tex={wmTex} />
 
       {/* studio environment built from soft area lights → real reflections */}
       <Environment resolution={256}>

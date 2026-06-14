@@ -68,6 +68,7 @@ export function Hero3D({ t }) {
         <div className="hero3d-overlay">
           {/* Title — part of the entrance animation */}
           <div ref={headlineRef} className="hero3d-headline" style={{ opacity: 1 }}>
+            <img className="hero3d-logo" src="/logosinfondo.png" alt="2V Digital" />
             <span className="hero3d-eyebrow">
               <span className="dot" /> {t?.hero?.eyebrow}
             </span>

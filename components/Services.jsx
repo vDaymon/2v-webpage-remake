@@ -2,9 +2,25 @@
 
 import { Reveal, WordReveal, useTilt } from "./hooks";
 import { Icon } from "./primitives";
+import { useLang } from "./LangProvider";
+import { SERVICE_MENU } from "@/lib/services";
+
+// Cada tarjeta de la home enlaza a sus páginas de servicio.
+const CARD_LINKS = [
+  ["diseno-de-paginas-web", "seo"],
+  ["manejo-de-redes-sociales", "publicidad-en-redes-sociales"],
+  ["software-a-medida"],
+];
+
+function labelFor(slug, lang) {
+  const m = SERVICE_MENU.find((x) => x.slug === slug);
+  return m ? m.label[lang] : slug;
+}
 
 function ServiceCard({ c, idx, iconName }) {
   const tilt = useTilt(7);
+  const { lang } = useLang();
+  const links = CARD_LINKS[idx] || [];
   return (
     <Reveal delay={idx * 0.08} className="service-card-reveal">
       <article ref={tilt} className="service-card tilt-card" data-cursor-hover>
@@ -20,9 +36,13 @@ function ServiceCard({ c, idx, iconName }) {
         </ul>
         <div className="service-foot">
           <span className="price">{c.price}</span>
-          <a href="#" className="arrow-link" data-cursor-hover>
-            {c.link} <Icon name="arrow" />
-          </a>
+          <div className="service-links">
+            {links.map((sl) => (
+              <a key={sl} href={`/servicios/${sl}`} className="arrow-link" data-cursor-hover>
+                {labelFor(sl, lang)} <Icon name="arrow" />
+              </a>
+            ))}
+          </div>
         </div>
       </article>
     </Reveal>

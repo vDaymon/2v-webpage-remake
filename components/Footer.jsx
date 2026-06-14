@@ -24,7 +24,7 @@ export function Footer({ t }) {
         <ul>{t.footer.links.connect.map((l, i) => <li key={i}><a href="#" data-cursor-hover>{l}</a></li>)}</ul>
       </div>
       <div className="footer-mega">
-        <img src="/logo-2v.png" alt="2V Digital" />
+        <img src="/logosinfondo.png" alt="2V Digital" />
       </div>
       <div className="footer-bottom">
         <span>{t.footer.copy}</span>

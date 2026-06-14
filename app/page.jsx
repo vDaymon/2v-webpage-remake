@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { I18N } from "@/lib/i18n";
+import { useLang } from "@/components/LangProvider";
 import { CustomCursor } from "@/components/hooks";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { ScrollProgress, Magnetic, Grain } from "@/components/Fx";
@@ -36,9 +37,7 @@ const TWEAK_DEFAULTS = {
 
 export default function App() {
   const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
-  const [lang, setLang] = useState(tweaks.lang || "es");
-
-  useEffect(() => { setTweak("lang", lang); }, [lang]);
+  const { lang, setLang } = useLang();
 
   useEffect(() => {
     const r = document.documentElement;
@@ -59,7 +58,7 @@ export default function App() {
       <Grain />
       <Magnetic />
       <CustomCursor enabled={tweaks.showCursor} />
-      <ArcNav t={t} lang={lang} setLang={setLang} />
+      <ArcNav />
       <Hero3D t={t} />
       <Ticker items={t.ticker} />
       <Services t={t} />

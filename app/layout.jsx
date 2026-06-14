@@ -1,5 +1,6 @@
 import "./globals.css";
 import { SITE } from "@/lib/site";
+import { LangProvider } from "@/components/LangProvider";
 
 export const metadata = {
   metadataBase: new URL(SITE.url),
@@ -84,7 +85,7 @@ const jsonLd = {
           "@type": "ContactPoint",
           telephone: SITE.phoneE164,
           contactType: "sales",
-          areaServed: ["AR", "LATAM"],
+          areaServed: ["CO", "LATAM"],
           availableLanguage: ["Spanish", "English"],
         },
       ],
@@ -96,7 +97,7 @@ const jsonLd = {
       name: SITE.name,
       description: SITE.description,
       publisher: { "@id": `${SITE.url}/#organization` },
-      inLanguage: "es-AR",
+      inLanguage: "es-CO",
     },
     {
       "@type": "ProfessionalService",
@@ -108,7 +109,15 @@ const jsonLd = {
       email: SITE.email,
       priceRange: "$$",
       description: SITE.description,
-      areaServed: ["AR", "LATAM", "Europa"],
+      areaServed: ["Colombia", "Medellín", "Antioquia", "LATAM"],
+      serviceType: [
+        "Marketing digital",
+        "SEO",
+        "Manejo de redes sociales",
+        "Publicidad en redes sociales",
+        "Diseño de páginas web",
+        "Software a medida",
+      ],
       address: {
         "@type": "PostalAddress",
         addressLocality: SITE.city,
@@ -142,7 +151,9 @@ export default function RootLayout({ children }) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <LangProvider>{children}</LangProvider>
+      </body>
     </html>
   );
 }
