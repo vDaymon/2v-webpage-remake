@@ -2,6 +2,7 @@
 
 import { Reveal, WordReveal } from "./hooks";
 import { Icon } from "./primitives";
+import { SITE } from "@/lib/site";
 
 export function CTA({ t }) {
   return (
@@ -18,7 +19,7 @@ export function CTA({ t }) {
         </h2>
         <Reveal delay={0.3}>
           <div className="cta-row">
-            <a href="https://wa.me/5491100000000" target="_blank" rel="noreferrer" className="btn btn-pink" data-cursor-hover>
+            <a href={SITE.whatsapp} target="_blank" rel="noreferrer" className="btn btn-pink" data-cursor-hover>
               <Icon name="wa" /> <span>{t.cta.btn1}</span>
             </a>
             <a href="mailto:hola@2v.studio" className="btn btn-ghost" data-cursor-hover>

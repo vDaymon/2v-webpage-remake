@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
+import { SITE } from "@/lib/site";
 
 // Three.js / WebGL must only run in the browser.
 const Scene3D = dynamic(() => import("./hero3d/Scene3D"), { ssr: false });
@@ -105,7 +106,7 @@ export function Hero3D({ t }) {
           {/* CTAs — appear with the logo reveal */}
           <div ref={ctaRef} className="hero3d-cta-row" style={{ opacity: 0, pointerEvents: "none" }}>
             <a
-              href="https://wa.me/5491100000000"
+              href={SITE.whatsapp}
               target="_blank"
               rel="noreferrer"
               className="btn btn-pink"

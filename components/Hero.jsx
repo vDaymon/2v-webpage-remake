@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { Reveal, WordReveal } from "./hooks";
 import { Icon } from "./primitives";
+import { SITE } from "@/lib/site";
 
 export function Hero({ t }) {
   const heroRef = useRef(null);
@@ -59,7 +60,7 @@ export function Hero({ t }) {
 
         <Reveal delay={0.5}>
           <div className="hero-cta-row">
-            <a href="https://wa.me/5491100000000" target="_blank" rel="noreferrer" data-cursor-hover className="btn btn-pink">
+            <a href={SITE.whatsapp} target="_blank" rel="noreferrer" data-cursor-hover className="btn btn-pink">
               <Icon name="wa" /> <span>{t.hero.cta1}</span>
             </a>
             <a href="#work" data-cursor-hover className="btn btn-ghost">

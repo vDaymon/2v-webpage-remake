@@ -9,6 +9,7 @@ import { usePathname } from "next/navigation";
 import { Icon } from "./primitives";
 import { useLang } from "./LangProvider";
 import { SERVICE_MENU } from "@/lib/services";
+import { SITE } from "@/lib/site";
 
 // Layout effect on the client (avoids the 2V curtain flashing on arrival).
 const useIsoEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
@@ -25,7 +26,7 @@ export const SECTIONS = [
   { id: "contact",   label: { es: "Contacto", en: "Contact" },   paint: "#1a0e2e",  light: false, sub: false }
 ];
 
-const WA = "https://wa.me/5491100000000";
+const WA = SITE.whatsapp;
 
 export function PetalNav() {
   const { lang, setLang } = useLang();
