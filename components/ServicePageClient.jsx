@@ -43,7 +43,7 @@ export function ServicePageClient({ service, related = [] }) {
               <p key={i} className="svc-intro">{p}</p>
             ))}
             <div className="svc-cta-row">
-              <a href={SITE.whatsapp} target="_blank" rel="noreferrer" className="btn btn-pink" data-cursor-hover>
+              <a href="/gracias" onClick={() => { try { window.open(SITE.whatsapp, "_blank", "noopener"); } catch {} }} className="btn btn-pink" data-cursor-hover>
                 <Icon name="wa" /> <span>{ui.ctaQuote}</span>
               </a>
               <Link href="/#work" className="btn btn-ghost" data-cursor-hover>
@@ -130,7 +130,7 @@ export function ServicePageClient({ service, related = [] }) {
           <div className="container">
             <h2>{ui.finalTitle}</h2>
             <p>{ui.finalText}</p>
-            <a href={SITE.whatsapp} target="_blank" rel="noreferrer" className="btn btn-pink" data-cursor-hover>
+            <a href="/gracias" onClick={() => { try { window.open(SITE.whatsapp, "_blank", "noopener"); } catch {} }} className="btn btn-pink" data-cursor-hover>
               <Icon name="wa" /> <span>{ui.ctaFree}</span>
             </a>
           </div>

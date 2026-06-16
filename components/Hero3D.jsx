@@ -106,9 +106,8 @@ export function Hero3D({ t }) {
           {/* CTAs — appear with the logo reveal */}
           <div ref={ctaRef} className="hero3d-cta-row" style={{ opacity: 0, pointerEvents: "none" }}>
             <a
-              href={SITE.whatsapp}
-              target="_blank"
-              rel="noreferrer"
+              href="/gracias"
+              onClick={() => { try { window.open(SITE.whatsapp, "_blank", "noopener"); } catch {} }}
               className="btn btn-pink"
               data-cursor-hover
             >

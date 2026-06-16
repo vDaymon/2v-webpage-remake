@@ -26,8 +26,6 @@ export const SECTIONS = [
   { id: "contact",   label: { es: "Contacto", en: "Contact" },   paint: "#1a0e2e",  light: false, sub: false }
 ];
 
-const WA = SITE.whatsapp;
-
 export function PetalNav() {
   const { lang, setLang } = useLang();
   const pathname = usePathname();
@@ -131,6 +129,12 @@ export function PetalNav() {
     };
     const poll = setInterval(tick, 45);
   }, [isHome]);
+
+  // Opens WhatsApp in a new tab while the link navigates to /gracias (lead
+  // tracking page). Runs in the click gesture so it isn't popup-blocked.
+  const openWA = () => {
+    try { window.open(SITE.whatsapp, "_blank", "noopener,noreferrer"); } catch {}
+  };
 
   const activeIdx = SECTIONS.findIndex(s => s.id === active);
   const activeSec = SECTIONS[activeIdx] || SECTIONS[0];
@@ -239,7 +243,7 @@ export function PetalNav() {
               <button className={lang === "es" ? "active" : ""} onClick={() => setLang("es")} data-cursor-hover>ES</button>
               <button className={lang === "en" ? "active" : ""} onClick={() => setLang("en")} data-cursor-hover>EN</button>
             </div>
-            <a href={WA} target="_blank" rel="noreferrer" className="soft-cta" data-cursor-hover>
+            <a href="/gracias" onClick={openWA} className="soft-cta" data-cursor-hover>
               <Icon name="wa" />
               <span>{lang === "es" ? "Cotizar" : "Quote"}</span>
             </a>
@@ -247,12 +251,15 @@ export function PetalNav() {
         </div>
       </div>
 
-      <a href={WA} target="_blank" rel="noreferrer" className="wa-orb" data-cursor-hover aria-label="WhatsApp">
+      <a href="/gracias" onClick={openWA} className="wa-orb" data-cursor-hover aria-label="WhatsApp">
         <span className="wa-orb-inner">
           <Icon name="wa" />
           <span className="wa-orb-label">{lang === "es" ? "Cotizá gratis" : "Get a quote"}</span>
         </span>
       </a>
+      <div className="wa-tip" aria-hidden="true">
+        {lang === "es" ? "Cotiza con nosotros ahora 👋" : "Get a quote now 👋"}
+      </div>
 
       <button
         className={`lang-fixed ${lang === "en" ? "is-en" : "is-es"}`}

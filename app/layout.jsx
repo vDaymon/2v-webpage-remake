@@ -1,6 +1,7 @@
 import "./globals.css";
 import { SITE } from "@/lib/site";
 import { LangProvider } from "@/components/LangProvider";
+import { Analytics } from "@/components/Analytics";
 
 export const metadata = {
   metadataBase: new URL(SITE.url),
@@ -70,6 +71,7 @@ const jsonLd = {
       "@type": "Organization",
       "@id": `${SITE.url}/#organization`,
       name: SITE.name,
+      alternateName: ["2V", "2V Digital Medellín", "2V Digital Colombia"],
       url: SITE.url,
       logo: {
         "@type": "ImageObject",
@@ -154,6 +156,7 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         <LangProvider>{children}</LangProvider>
+        <Analytics />
       </body>
     </html>
   );

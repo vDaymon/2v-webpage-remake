@@ -2095,3 +2095,42 @@ html.lenis, html.lenis body { height: auto; }
   0%, 100% { transform: scale(0.55); opacity: 0.35; }
   50% { transform: scale(1); opacity: 1; }
 }
+
+/* ==========  Thank-you / lead page (/gracias)  ========== */
+.gracias-page {
+  min-height: 100vh;
+  background: radial-gradient(130% 100% at 50% 20%, #46117a 0%, #2f0954 55%, #1a0e2e 100%);
+  display: grid; place-items: center; padding: 24px;
+}
+.gracias { text-align: center; max-width: 540px; }
+.gracias-logo {
+  width: clamp(96px, 16vw, 150px); height: auto; margin: 0 auto 30px;
+  filter: drop-shadow(0 14px 44px rgba(123, 58, 237, 0.55));
+}
+.gracias-title {
+  font-family: var(--font-sans); font-weight: 600;
+  font-size: clamp(1.9rem, 5vw, 3.1rem); letter-spacing: -0.03em;
+  color: #f3eefb; margin-bottom: 16px; line-height: 1.05;
+}
+.gracias-text { color: var(--ink-dim); font-size: 1.05rem; line-height: 1.6; margin-bottom: 34px; }
+.gracias-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+/* ==========  WhatsApp orb attention tooltip  ========== */
+.wa-tip {
+  position: fixed; bottom: 102px; right: 26px; z-index: 199;
+  background: #ffffff; color: #1a0e2e; font-size: 13px; font-weight: 600;
+  letter-spacing: -0.01em; padding: 10px 16px;
+  border-radius: 14px; border-bottom-right-radius: 5px;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.32); white-space: nowrap;
+  pointer-events: none; transform-origin: bottom right;
+  opacity: 0; transform: scale(0.8) translateY(8px);
+  animation: waTip 13s ease-in-out infinite;
+}
+@keyframes waTip {
+  0%, 100% { opacity: 0; transform: scale(0.8) translateY(8px); }
+  4% { opacity: 1; transform: scale(1) translateY(0); }
+  22% { opacity: 1; transform: scale(1) translateY(0); }
+  28% { opacity: 0; transform: scale(0.9) translateY(6px); }
+}
+.wa-orb:hover + .wa-tip { animation: none; opacity: 0; }
+@media (max-width: 700px) { .wa-tip { bottom: 86px; right: 18px; font-size: 12px; padding: 9px 13px; } }
